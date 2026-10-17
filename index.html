@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIKTOR KORSKY — Sound Producer & DJ</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #ffffff;
+            --accent-color: #7a7a7a;
+            --border-color: #1a1a1a;
+            --footer-bg: #ffffff;
+            --footer-text: #050505;
+            --footer-border: #e5e5e5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 0px;
+            letter-spacing: -0.02em;
+            position: relative;
+            overflow-x: hidden;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        /* ЭФФЕКТ КИНЕСКОПИЧЕСКОГО ШУМА (FILM GRAIN) */
+         body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Безопасный CSS-шум, который гарантированно виден на черном */
+            background-image: 
+                linear-gradient(rgba(131, 131, 131, 0.08) 50%, transparent 50%),
+                linear-gradient(90deg, rgba(135, 135, 135, 0.08) 50%, transparent 50%);
+            background-size: 2px 2px; /* ВОТ ЗДЕСЬ МЕНЯЕТСЯ РАЗМЕР ЗЕРНА */
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes grain {
+            0%, 100% { transform:translate(0, 0); }
+            10% { transform:translate(-5%, -10%); }
+            30% { transform:translate(-15%, 5%); }
+            50% { transform:translate(5%, 15%); }
+            70% { transform:translate(15%, -5%); }
+            90% { transform:translate(-5%, 10%); }
+        }
+
+        /* АНИМАЦИЯ ПЛАВНОГО ПОЯВЛЕНИЯ */
+        .main-wrapper, .ticker-section, footer {
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        /* ГЛАВНЫЕ КОНТЕЙНЕРЫ (ОБНУЛИЛИ НИЖНИЕ И ВЕРХНИЕ ОТСТУПЫ) */
+        .main-wrapper {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0px 40px 0px 40px; /* Нижний отступ верхнего блока убран в 0 */
+        }
+
+        .main-wrapper .bottom-wrapper {
+            padding: 0px 40px 60px 40px; /* Верхний отступ нижнего блока убран в 0 */
+            margin-bottom: auto; /* Выталкивает подвал вниз, не разрывая контент */
+        }
+
+        /* ВЕРХНЯЯ СЕТКА */
+        .top-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0px 80px; /* Вертикальный зазор между заголовком и левой фоткой убран в 0 */
+            align-items: start;
+        }
+
+        .grid-header { grid-column: 1; grid-row: 1; }
+        
+        header h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+        }
+
+        header p {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-top: 15px;
+            letter-spacing: 0.15em;
+            font-weight: bold;
+        }
+
+        .grid-photo-left { grid-column: 1; grid-row: 2; margin-top: 30px; }
+
+        .photo-left {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: #000;
+        }
+
+        .photo-left img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(100%) contrast(110%) brightness(90%);
+        }
+
+        .grid-photo-right {
+            grid-column: 2;
+            grid-row: 1 / 3;
+            height: 100%;
+            display: flex;
+        }
+
+        .photo-right {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: #000;
+        }
+
+        .photo-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(100%) contrast(110%) brightness(90%);
+        }
+
+        /* БЕГУЩАЯ СТРОКА НА ВСЮ ШИРИНУ ЭКРАНА С МИНИМАЛЬНЫМИ ЗАЗОРАМИ */
+        .ticker-section {
+            width: 100%;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+            overflow: hidden;
+            margin-top: 20px; /* Отступ строго от нижней грани фотографий */
+            margin-bottom: 20px; /* Отступ строго до начала текста и плеера */
+        }
+
+        .ticker-wrap {
+            display: flex;
+            width: 100%;
+        }
+
+        .ticker {
+            display: flex;
+            flex-shrink: 0;
+            white-space: nowrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            letter-spacing: 0.2em;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* НИЖНЯЯ СЕТКА ДЛЯ ТЕКСТА И ПЛЕЕРА */
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .grid-text-left p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e5e5e5;
+            max-width: 500px;
+        }
+
+        .player-embed {
+            width: 100%;
+            background: rgba(26, 26, 26, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .player-embed iframe {
+            display: block;
+        }
+
+        /* БЕЛОСНЕЖНЫЙ ПОДВАЛ MUTUAL RYTM НА ВСЮ ШИРИНУ ЭКРАНА */
+        footer {
+            width: 100%;
+            background-color: var(--footer-bg);
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            z-index: 10;
+        }
+
+        .links-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 0px;
+            background-color: #ffffff(--footer-border);
+        }
+
+        .nav-link {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            text-decoration: none;
+            padding: 30px 20px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+            font-family: 'Courier New', Courier, monospace;
+            border-right: 1px solid var(--footer-border);
+        }
+
+        .nav-link:hover {
+            background-color: #f5f5f5;
+        }
+
+        .nav-link span {
+            font-size: 0.95rem;
+            color: #a5a5a5;
+            font-family: sans-serif;
+        }
+
+        @media (max-width: 900px) {
+            .main-wrapper, .main-wrapper.bottom-part { padding: 20px; }
+            .top-grid, .bottom-grid { grid-template-columns: 1fr; gap: 30px; }
+            .grid-photo-right { height: 400px; width: 100%; }
+            .grid-photo-left { margin-top: 20px; }
+            .content { margin-top: 40px; }
+            header h1 { font-size: 2.5rem; }
+            .links-grid { padding: 0 20px; }
+            .ticker-section { margin-top: 20px !important; margin-bottom: 20px !important; }
+        }
+        .nav-link:last-child {
+            border-right: none;
+                    }
+                    /* БЛОК РЕЛИЗОВ В СТИЛЕ MUTUAL RYTM */
+        /* БЕЛОСНЕЖНЫЙ БЛОК РЕЛИЗОВ ВО ВСЮ ШИРИНУ В СТИЛЕ MUTUAL RYTM */
+        .releases-section {
+            width: 100%;
+            background-color: #ffffff; /* Белая плашка во всю ширину экрана */
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 60px 0;
+            margin: 40px 0;
+        }
+
+        .releases-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .releases-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 40px;
+            color: #050505; /* Радикальный черный цвет заголовка на белом фоне */
+        }
+
+        .releases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .release-card {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-decoration: none;
+            color: #050505; /* Черный текст для подписей */
+        }
+
+        .release-cover {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border: 1px solid #e5e5e5; /* Светлая тонкая рамка вокруг обложки */
+            background-color: #000;
+        }
+
+        .release-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: grayscale(100%) contrast(110%);
+            transition: all 0.3s ease;
+        }
+
+        /* Эффект при наведении: обложка возвращает цвет */
+        .release-card:hover .release-cover img {
+            filter: grayscale(0%) contrast(100%);
+        }
+
+        .release-info {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #7a7a7a; /* Серый технический шрифт для инфо */
+            line-height: 1.4;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .releases-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .releases-container { padding: 0 20px; }
+            .releases-section { padding: 40px 0; }
+        }
+        div.bottom-wrapper {
+            padding-top: 10px !important;
+            margin-top: 0px !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ВЕРХНИЙ БЛОК: ИМЯ И ФОТОГРАФИИ -->
+    <div class="main-wrapper">
+        <div class="top-grid">
+            <div class="grid-header">
+                <header>
+                    <h1>Viktor<br>Korsky</h1>
+                    <p>[ SOUND PRODUCER // DJ // LINEAR RHYTHMS ]</p>
+                </header>
+            </div>
+
+            <div class="grid-photo-left">
+                <div class="photo-left">
+                    <img src="photo2.jpg" alt="Viktor Korsky">
+                </div>
+            </div>
+
+            <div class="grid-photo-right">
+                <div class="photo-right">
+                    <img src="photo1.jpg" alt="Viktor Korsky Visual">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- БЕГУЩАЯ СТРОКА НА ВСЮ ШИРИНУ ЭКРАНА С ДВУМЯ ЛИНИЯМИ -->
+    <div class="ticker-section">
+        <div class="ticker-wrap">
+            <div class="ticker">
+                VIKTOR KORSKY // LINEAR RHYTHMS // RELEASES // LIVE MIX // HYPNOTIC STRUCTURES // MUTUAL VIBE //&nbsp;
+                VIKTOR KORSKY // LINEAR RHYTHMS // RELEASES // LIVE MIX // HYPNOTIC STRUCTURES // MUTUAL VIBE //&nbsp;
+            </div>
+            <div class="ticker">
+                VIKTOR KORSKY // LINEAR RHYTHMS // RELEASES // LIVE MIX // HYPNOTIC STRUCTURES // MUTUAL VIBE //&nbsp;
+                VIKTOR KORSKY // LINEAR RHYTHMS // RELEASES // LIVE MIX // HYPNOTIC STRUCTURES // MUTUAL VIBE //&nbsp;
+            </div>
+        </div>
+    </div>
+
+    <div class="main-wrapper .bottom-wrapper">
+       <!-- НИЖНИЙ БЛОК: ТЕКСТ И ПЛЕЕР НА ОДНОЙ ЛИНИИ -->
+        <div class="bottom-grid">
+            <div class="grid-text-left">
+                <p>
+                    Исследование глубокого, сырого грува и передовых звуковых структур. Фокус на плотной аналоговой эстетике, гипнотическом гипно-техно и быстром, бескомпромиссном ритме.
+                </p>
+            </div>
+
+            <div class="grid-player-right">
+                <div class="player-embed">
+<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2349593840&color=%231c1c1c&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/lauttt" title="LAUT Ulaanbaatar" target="_blank" style="color: #cccccc; text-decoration: none;">LAUT Ulaanbaatar</a> · <a href="https://soundcloud.com/lauttt/laut-mix-series-166-viktor-korsky" title="Laut Mix Series #166 - Viktor Kørsky" target="_blank" style="color: #cccccc; text-decoration: none;">Laut Mix Series #166 - Viktor Kørsky</a></div>                </div>
+            </div>
+        </div> <!-- Закрывает .bottom-grid -->
+        </div>
+    </div>
+       <!-- БЛОК РЕЛИЗОВ И АЛЬБОМОВ (БЕЛЫЙ ВО ВСЮ ШИРИНУ) -->
+    <div class="releases-section">
+        <div class="releases-container">
+            <div class="releases-title">Exploring Music, Culture & Beyond</div>
+            
+            <div class="releases-grid">
+                
+                <!-- РЕЛИЗ 1 -->
+                <a href="#" target="_blank" class="release-card">
+                    <div class="release-cover">
+                        <img src="release1.jpg" alt="Release 1">
+                    </div>
+                    <div class="release-info">
+                        KORSKY001 // LINEAR IMPULSE EP // 2026
+                    </div>
+                </a>
+
+                <!-- РЕЛИЗ 2 -->
+                <a href="#" target="_blank" class="release-card">
+                    <div class="release-cover">
+                        <img src="release2.jpg" alt="Release 2">
+                    </div>
+                    <div class="release-info">
+                        KORSKY002 // RHYTHM STRUCTURE // 2026
+                    </div>
+                </a>
+
+                <!-- РЕЛИЗ 3 
+                <a href="#" target="_blank" class="release-card">
+                    <div class="release-cover">
+                        <img src="release3.jpg" alt="Release 3">
+                    </div>
+                    <div class="release-info">
+                        MUTUAL04 // VAULT SESSIONS REMIX // 2026
+                    </div>
+                </a>
+
+                 РЕЛИЗ 4 
+                <a href="#" target="_blank" class="release-card">
+                    <div class="release-cover">
+                        <img src="release4.jpg" alt="Release 4">
+                    </div>
+                    <div class="release-info">
+                        KORSKY003 // PRIMAL DRIVE EP // 2026
+                    </div>
+                </a>-->
+
+            </div>
+        </div>
+    </div>
+
+    </div> <!-- ВОТ ЭТОТ ТЕГ БЫЛ ПРОПУЩЕН! Он закрывает .main-wrapper -->
+
+    <!-- БЕЛОСНЕЖНЫЙ ПОДВАЛ MUTUAL RYTM -->
+    <footer>
+        <div class="links-grid">
+            <a href="https://soundcloud.com" target="_blank" class="nav-link">SoundCloud <span>↗</span></a>
+            <a href="https://bandcamp.com" target="_blank" class="nav-link">Bandcamp <span>↗</span></a>
+            <a href="https://t.me" target="_blank" class="nav-link">Telegram Channel <span>↗</span></a>
+            <a href="mailto:booking@viktorkorsky.com" class="nav-link">Booking & Promo <span>→</span></a>
+            <a href="https://beatport.com" class="nav-link">beatport <span>→</span></a>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
