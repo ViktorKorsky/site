@@ -1,0 +1,21 @@
+backend:
+ name: github
+ repo: ViktorKorsky/site
+ branch: main
+ base_url: https://decapcms.org
+ auth_endpoint: /auth
+
+media_folder: "img" #папка для обложек
+public_folder: "img"
+
+collections:
+ - name: "pages"
+   label: "Контент сайта"
+   files:
+     - file: "index.html"
+       name: "home"
+       label: "Главная страница"
+       fields:
+        - {label: "Имя артиста", name: "artist_name", widget: "string"}
+        - {label: "О себе (Текст)", name: "bio_text", widget: "text"}
+        - {label: "Ссылка SoundCloud", name: "soundcloud_link", widget: "string"}
