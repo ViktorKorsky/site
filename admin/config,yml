@@ -5,7 +5,7 @@ backend:
  base_url: https://decapcms.org
  auth_endpoint: /auth
 
-media_folder: "site/img" #папка для обложек
+media_folder: "img" #папка для обложек
 public_folder: "img"
 
 collections:
