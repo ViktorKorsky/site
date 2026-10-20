@@ -34,9 +34,8 @@
             overflow-x: hidden;
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
-
-        /* ЭФФЕКТ КИНЕСКОПИЧЕСКОГО ШУМА (FILM GRAIN) */
-         body::before {
+/* 1. ЭФФЕКТ АНАЛОГОВОГО МИКРО-ШУМА */
+        body::before {
             content: "";
             position: fixed;
             top: 0;
@@ -45,8 +44,8 @@
             height: 100%;
             /* Безопасный CSS-шум, который гарантированно виден на черном */
             background-image: 
-                linear-gradient(rgba(131, 131, 131, 0.08) 50%, transparent 50%),
-                linear-gradient(90deg, rgba(135, 135, 135, 0.08) 50%, transparent 50%);
+                linear-gradient(rgb(131, 131, 131, 0.08) 50%, transparent 50%),
+                linear-gradient(90deg, rgb(135, 135, 135, 0.08) 50%, transparent 50%);
             background-size: 2px 2px; /* ВОТ ЗДЕСЬ МЕНЯЕТСЯ РАЗМЕР ЗЕРНА */
             pointer-events: none;
             z-index: 9999;
@@ -99,6 +98,10 @@
             text-transform: uppercase;
             line-height: 0.9;
             letter-spacing: -0.04em;
+        }
+        .glitch-title {
+            display: inline-block;
+            cursor: pointer;
         }
 
         header p {
@@ -266,6 +269,7 @@
             .grid-photo-left { margin-top: 20px; }
             .content { margin-top: 40px; }
             header h1 { font-size: 2.5rem; }
+            header p {font-size: 0.65rem !important; letter-spacing: 0.08em !important;}
             .links-grid { padding: 0 20px; }
             .ticker-section { margin-top: 20px !important; margin-bottom: 20px !important; }
         }
@@ -363,7 +367,10 @@
         <div class="top-grid">
             <div class="grid-header">
                 <header>
-                    <h1>Viktor<br>Korsky</h1>
+                    <h1>
+                        <span class="glitch-title" data-value="VIKTOR">Viktor</span><br>
+                        <span class="glitch-title" data-value="KORSKY">Korsky</span>
+                    </h1>
                     <p>[ SOUND PRODUCER // DJ // LINEAR RHYTHMS ]</p>
                 </header>
             </div>
@@ -407,7 +414,7 @@
 
             <div class="grid-player-right">
                 <div class="player-embed">
-<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2349593840&color=%231c1c1c&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/lauttt" title="LAUT Ulaanbaatar" target="_blank" style="color: #cccccc; text-decoration: none;">LAUT Ulaanbaatar</a> · <a href="https://soundcloud.com/lauttt/laut-mix-series-166-viktor-korsky" title="Laut Mix Series #166 - Viktor Kørsky" target="_blank" style="color: #cccccc; text-decoration: none;">Laut Mix Series #166 - Viktor Kørsky</a></div>                </div>
+<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/playlists/soundcloud%253Aplaylists%253A1847184231&color=%23060606&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/korsky_msc" title="Korsky" target="_blank" style="color: #cccccc; text-decoration: none;">Korsky</a> · <a href="https://soundcloud.com/korsky_msc/sets/viktorkorsky" title="Viktor Korsky" target="_blank" style="color: #cccccc; text-decoration: none;">Viktor Korsky</a></div>
             </div>
         </div> <!-- Закрывает .bottom-grid -->
         </div>
@@ -420,7 +427,7 @@
             <div class="releases-grid">
                 
                 <!-- РЕЛИЗ 1 -->
-                <a href="#" target="_blank" class="release-card">
+                <a href="https://www.beatport.com/release/vitronik/4934698?srsltid=AU7gw4WilygXMQN5Yp6SjTdMZbm2hGdjvNzKy-NVEmu-bxTdMFYHlQTc" target="_blank" class="release-card">
                     <div class="release-cover">
                         <img src="release1.jpg" alt="Release 1">
                     </div>
@@ -430,7 +437,7 @@
                 </a>
 
                 <!-- РЕЛИЗ 2 -->
-                <a href="#" target="_blank" class="release-card">
+                <a href="https://www.beatport.com/release/signal-error-1/7386605" target="_blank" class="release-card">
                     <div class="release-cover">
                         <img src="release2.jpg" alt="Release 2">
                     </div>
@@ -468,15 +475,82 @@
     <!-- БЕЛОСНЕЖНЫЙ ПОДВАЛ MUTUAL RYTM -->
     <footer>
         <div class="links-grid">
-            <a href="https://soundcloud.com/korsky_msc" target="_blank" class="nav-link">SoundCloud <span>↗</span></a>
-            <a href="https://retrigg.bandcamp.com/album/vitronik" target="_blank" class="nav-link">Bandcamp <span>↗</span></a>
-            <a href="https://t.me" target="_blank" class="nav-link">Telegram Channel <span>↗</span></a>
-            <a href="mailto:booking@viktorkorsky.com" class="nav-link">Booking & Promo <span>→</span></a>
-            <a href="https://www.beatport.com/artist/viktor-korsky/1289498" class="nav-link">beatport <span>→</span></a>
+            <a href="https://soundcloud.com/korsky_msc" target="_blank" class="nav-link glitch-link" data-value="SoundCloud">SoundCloud<span>↗</span></a>
+            <a href="https://retrigg.bandcamp.com/album/vitronik" target="_blank" class="nav-link glitch-link" data-value="Bandcamp">Bandcamp<span>↗</span></a>
+            <a href="https://t.me" target="_blank" class="nav-link glitch-link" data-value="Telegram">Telegram<span>↗</span></a>
+            <a href="mailto:booking@viktorkorsky.com" class="nav-link glitch-link" data-value="Booking & Promo">Booking & Promo<span>→</span></a>
+            <a href="https://www.beatport.com/artist/viktor-korsky/1289498" class="nav-link glitch-link" data-value="beatport">beatport<span>→</span></a>
         </div>
     </footer>
 
 </body>
+<script>
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789//[][]--";
+        
+        function startGlitch(target) {
+            if (target.glitchInterval) clearInterval(target.glitchInterval);
+
+            // Бесконечный хакерский перебор букв
+            target.glitchInterval = setInterval(() => {
+                let targetNode = target.firstChild;
+                if (targetNode && targetNode.nodeType === 3) {
+                    targetNode.nodeValue = targetNode.nodeValue
+                        .split("")
+                        .map(() => letters[Math.floor(Math.random() * letters.length)])
+                        .join("");
+                }
+            }, 50); // Скорость мерцания букв
+        }
+
+        function stopGlitch(target, originalText) {
+            if (target.glitchInterval) clearInterval(target.glitchInterval);
+
+            let iteration = 0;
+            // Плавная сборка текста обратно
+            target.glitchInterval = setInterval(() => {
+                let targetNode = target.firstChild;
+                if (targetNode && targetNode.nodeType === 3) {
+                    targetNode.nodeValue = targetNode.nodeValue
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return originalText[index];
+                            }
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join("");
+                }
+
+                if (iteration >= originalText.length) {
+                    clearInterval(target.glitchInterval);
+                }
+                iteration += 1;
+            }, 25);
+        }
+
+        // 1. Применяем к заголовку Viktor Korsky
+        document.querySelectorAll(".glitch-title").forEach(titleLine => {
+            const orig = titleLine.dataset.value;
+            titleLine.onmouseenter = () => startGlitch(titleLine);
+            titleLine.onmouseleave = () => stopGlitch(titleLine, orig);
+        });
+
+
+        // 2. Применяем к подзаголовку
+        const subTitle = document.querySelector("header p");
+        if (subTitle) {
+            const orig = "[ SOUND PRODUCER // DJ // LINEAR RHYTHMS ]";
+            subTitle.onmouseenter = () => startGlitch(subTitle);
+            subTitle.onmouseleave = () => stopGlitch(subTitle, orig);
+        }
+
+        // 3. Применяем к кнопкам в подвале
+        document.querySelectorAll(".glitch-link").forEach(link => {
+            const orig = link.dataset.value;
+            link.onmouseenter = () => startGlitch(link);
+            link.onmouseleave = () => stopGlitch(link, orig);
+        });
+    </script>
 </html>
 
 
